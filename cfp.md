@@ -11,6 +11,7 @@ The Java development ecosystem changed a lot during the past 10 years. A lot of 
     * Hotswaps
     * Containers
     * Generators
+    * Startup time
     * Continuous testing
     * Living documentation
     * Pipeline as code
