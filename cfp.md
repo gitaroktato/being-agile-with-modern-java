@@ -8,8 +8,9 @@ The Java development ecosystem changed a lot during the past 10 years. A lot of 
 * Picking the right quality attributes & metrics for maximizing
 * Modern version of the XP feedback cycle
 * How to use certain technologies and practices properly in Java
-    * Hotswap
+    * Hotswaps
     * Containers
     * Generators
     * Continuous testing
+    * Living documentation
     * Pipeline as code
