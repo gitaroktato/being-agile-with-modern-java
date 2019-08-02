@@ -2,13 +2,19 @@ plugins {
 	id 'org.springframework.boot' version '2.1.6.RELEASE'
 	id 'java'
 	id "io.freefair.lombok" version "3.8.1"
+	id 'net.ltgt.apt' version '0.20'
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'net.ltgt.apt-idea'
 
 group = 'com.epam'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+ext {
+	mapstructVersion = "1.3.0.Final"
+}
 
 configurations {
 	developmentOnly
@@ -18,6 +24,12 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+compileJava {
+	options.compilerArgs = [
+			'-Amapstruct.defaultComponentModel=spring'
+	]
 }
 
 repositories {
@@ -36,4 +48,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile 'io.springfox:springfox-swagger2:2.9.2'
 	compile 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }

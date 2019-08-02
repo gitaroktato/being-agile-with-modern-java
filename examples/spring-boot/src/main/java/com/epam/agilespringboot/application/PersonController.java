@@ -15,10 +15,15 @@ public class PersonController {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonToPersonDTOMapper mapper;
+
     @GetMapping("/person/{id}")
-    ResponseEntity<Person> findById(@PathVariable String id) {
+    ResponseEntity<PersonDTO> findById(@PathVariable String id) {
         final var person = personRepository.findById(Integer.valueOf(id));
-        return person.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        return person.map(result -> {
+            var dto = mapper.personToPersonDto(result);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 }

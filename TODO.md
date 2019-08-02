@@ -5,3 +5,4 @@
 [ ] jlink and startup time
 [ ] jib and dockerizing
 [ ] lombok & mapstruct
+- [ ] Add v1 API for fullName firstname / lastname
