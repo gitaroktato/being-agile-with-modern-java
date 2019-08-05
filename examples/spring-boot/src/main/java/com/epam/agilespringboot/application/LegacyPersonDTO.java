@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-public class PersonDTO {
-    @Getter @Setter private String firstName;
-    @Getter @Setter private String lastName;
+public class LegacyPersonDTO {
+    @Getter @Setter
+    private String fullName;
 }

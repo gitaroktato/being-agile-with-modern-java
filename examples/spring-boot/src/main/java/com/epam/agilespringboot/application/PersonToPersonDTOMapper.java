@@ -9,5 +9,9 @@ public interface PersonToPersonDTOMapper {
 
     @Mapping(target = "fullName",
             expression = "java( person.getFirstName() + \" \" + person.getLastName() )")
-    PersonDTO personToPersonDto(Person person);
+    LegacyPersonDTO personToLegacyPersonDTO(Person person);
+
+    @Mapping(source = "firstName", target = "firstName")
+    @Mapping(source = "lastName", target = "lastName")
+    PersonDTO personToPersonDTO(Person person);
 }
