@@ -4,7 +4,7 @@
 
 # Generators
 [x] lombok & mapstruct
-- [ ] Add v1 API for fullName firstname / lastname
+- [x] Add v1 API for fullName firstname / lastname
 [x] start.spring.io
 [x] vars
 [ ] JHipster
