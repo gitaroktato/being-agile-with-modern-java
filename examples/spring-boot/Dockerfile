@@ -9,12 +9,14 @@ RUN /usr/local/openjdk-11/bin/jlink \
     --output /opt/jdk-11-minimal
 
 # Second stage, add only our custom jdk 11 distro and our app
-FROM busybox
+FROM debian:stretch-slim
 COPY --from=packager /opt/jdk-11-minimal /opt/jdk-11-minimal
 COPY build/libs/*.jar /opt/
+
+VOLUME /tmp
 
 ENV JAVA_HOME=/opt/jdk-11-minimal
 ENV PATH="$PATH:$JAVA_HOME/bin"
 
 EXPOSE 8080
-CMD java -jar /opt/*.jar
+CMD /opt/jdk-11-minimal/bin/java -jar /opt/*.jar
