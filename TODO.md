@@ -10,9 +10,10 @@
 [ ] JHipster
 
 # Containers
-[ ] jlink and startup time
+[x] jlink and startup time
 - [x] Separate Spring profile
 - [ ] minikube & Kubernetes
+- [ ] k3s
 - [ ] compose vs minikube start time
 [ ] jib and dockerizing
 - [ ] Using skaffold
