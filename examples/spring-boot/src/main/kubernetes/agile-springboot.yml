@@ -20,6 +20,9 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
 ---
 apiVersion: v1
 kind: Service
