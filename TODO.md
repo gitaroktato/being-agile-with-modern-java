@@ -14,7 +14,7 @@
 - [x] Separate Spring profile
 - [x] minikube & Kubernetes
 - [ ] k3s
-- [ ] compose vs minikube start time
+- [x] compose vs minikube start time
 -- [ ] starting up dependencies (initcontainers & wait-for-it.sh)
 [x] jib and dockerizing
 - [ ] Using skaffold
