@@ -6,3 +6,4 @@
 | OpenJDK 11 multistage | 160 MB |  10.2 sec |
 | AdoptOpenJDK 11 alpine | 385 MB |  10.7 sec |
 | AdoptOpenJDK 11 alpine multistage | 113 MB |  10.4 sec |
+| jib | 241 MB | 8.249 sec |

@@ -12,10 +12,11 @@
 # Containers
 [x] jlink and startup time
 - [x] Separate Spring profile
-- [ ] minikube & Kubernetes
+- [x] minikube & Kubernetes
 - [ ] k3s
 - [ ] compose vs minikube start time
-[ ] jib and dockerizing
+-- [ ] starting up dependencies (initcontainers & wait-for-it.sh)
+[x] jib and dockerizing
 - [ ] Using skaffold
 
 # Continuous testing
