@@ -3,6 +3,7 @@ plugins {
 	id 'java'
 	id "io.freefair.lombok" version "3.8.1"
 	id 'net.ltgt.apt' version '0.20'
+	id 'com.google.cloud.tools.jib' version '1.4.0'
 }
 
 apply plugin: 'io.spring.dependency-management'

@@ -1,6 +1,21 @@
 spring:
+  profiles:
+    active: "local"
+    include: "generic"
+---
+spring:
+  profiles: generic
   datasource:
-    url: jdbc:mysql://192.168.99.106/persons
     username: dbuser
     password: dbpass
     driver-class-name: com.mysql.cj.jdbc.Driver
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mysql://192.168.99.106/persons
+---
+spring:
+  profiles: docker
+  datasource:
+    url: jdbc:mysql://mysql/persons

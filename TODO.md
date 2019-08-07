@@ -10,8 +10,24 @@
 [ ] JHipster
 
 # Containers
-[ ] jlink and startup time
-[ ] jib and dockerizing
+[x] jlink and startup time
+- [x] Separate Spring profile
+- [x] minikube & Kubernetes
+- [ ] k3s
+- [x] compose vs minikube start time
+-- [ ] starting up dependencies (initcontainers & wait-for-it.sh)
+[x] jib and dockerizing
+- [ ] Using skaffold
+
+# Continuous testing
+[ ] Taurus
+
+# Living documentation
+[x] Cucumber & Toxiproxy
+[ ] JEP 330 and check README.md
+
+# Pipeline as code
+[ ] Jenkinsfile and branch builds
 
 # Others
 [ ] Junit 5

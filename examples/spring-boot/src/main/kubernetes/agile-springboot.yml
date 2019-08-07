@@ -1,0 +1,38 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: agile-springboot
+  labels:
+    app: agile-springboot
+spec:
+  selector:
+    matchLabels:
+      app: agile-springboot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: agile-springboot
+    spec:
+      containers:
+        - name: agile-springboot
+          image: agile-springboot:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agile-springboot
+  labels:
+    app: agile-springboot
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+  selector:
+    app: agile-springboot
