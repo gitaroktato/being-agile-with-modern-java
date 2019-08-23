@@ -1,0 +1,20 @@
+---
+execution:
+  - executor: junit
+    concurrency: 20   # number of virtual users
+    hold-for: 2m
+    scenario:
+      script: src/test/java  # folder with your tests or path to one test script
+
+reporting:
+  - module: final-stats
+  - module: console
+  - module: passfail
+    criteria:
+      - avg-rt of testGetPerson>50ms for 10s, stop as failed
+      - p99 of testGetPerson>120ms for 5s, stop as failed
+      - fail of testGetLegacyPerson>50% for 10s, stop as failed
+
+modules:
+  junit:
+    compile-target-java: 11
