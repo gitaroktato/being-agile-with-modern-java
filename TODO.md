@@ -17,7 +17,7 @@
 - [x] compose vs minikube start time
 -- [ ] starting up dependencies (initcontainers & wait-for-it.sh)
 [x] jib and dockerizing
-- [ ] Using skaffold
+- [x] Using skaffold
 
 # Continuous testing
 [ ] Taurus

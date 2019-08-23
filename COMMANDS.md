@@ -10,3 +10,8 @@ eval $(minikube env)
 skaffold init
 skaffold dev
 ```
+
+# Taurus
+```
+bzt src/test/taurus/end-to-end.yml
+```
