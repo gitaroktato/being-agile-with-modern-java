@@ -7,8 +7,8 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface PersonToPersonDTOMapper {
 
-    @Mapping(target = "fullName",
-            expression = "java( person.getFirstName() + \" \" + person.getLastName() )")
+    @Mapping(target = "fullName", expression =
+    "java(person.getFirstName() + \" \" + person.getLastName())")
     LegacyPersonDTO personToLegacyPersonDTO(Person person);
 
     @Mapping(source = "firstName", target = "firstName")
