@@ -1,0 +1,15 @@
+pipeline {
+    ...
+    stages {
+        stage('checkout') {
+            steps {
+                ...
+            }
+        }
+        stage('test') {
+            steps {
+                ...
+            }
+        }
+    }
+}
