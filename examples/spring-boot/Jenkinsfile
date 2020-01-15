@@ -10,8 +10,11 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                sh 'cd $BASEDIR'
-                sh 'chmod u+x ./gradlew'
+               dir(BASEDIR) {
+                 sh 'cd $BASEDIR'
+                 sh 'ls'
+                 sh 'chmod u+x ./gradlew'
+               }
             }
         }
         stage('test') {
