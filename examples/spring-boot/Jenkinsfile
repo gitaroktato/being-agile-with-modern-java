@@ -2,12 +2,10 @@ pipeline {
     agent any
     environment {
         GRADLE_OPTS = '-Dorg.gradle.daemon=false'
+        BASEDIR = 'examples/spring-boot'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '1'))
-    }
-    environment {
-        BASEDIR = 'examples/spring-boot'
     }
     stages {
         stage('checkout') {
