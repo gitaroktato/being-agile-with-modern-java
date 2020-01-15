@@ -4,13 +4,15 @@ pipeline {
         GRADLE_OPTS = '-Dorg.gradle.daemon=false'
     }
     options {
-        buildDiscarder(logRotator(numToKeepStr: '5'))
+        buildDiscarder(logRotator(numToKeepStr: '1'))
+    }
+    environment {
+        BASEDIR = 'examples/spring-boot'
     }
     stages {
         stage('checkout') {
             steps {
-                sh 'git config --global http.sslVerify false'
-                git branch: env.BRANCH_NAME, url: 'https://github.com/gitaroktato/being-agile-with-modern-java'
+                sh 'cd $BASEDIR'
                 sh 'chmod u+x ./gradlew'
             }
         }
