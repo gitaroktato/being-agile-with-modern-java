@@ -7,7 +7,7 @@
 - [x] Add v1 API for fullName firstname / lastname
 [x] start.spring.io
 [x] vars
-[ ] JHipster
+[x] JHipster
 
 # Containers
 [x] jlink and startup time

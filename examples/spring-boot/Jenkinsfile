@@ -1,14 +1,22 @@
 pipeline {
-    ...
+    agent any
+    environment {
+        GRADLE_OPTS = '-Dorg.gradle.daemon=false'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
     stages {
         stage('checkout') {
             steps {
-                ...
+                sh 'git config --global http.sslVerify false'
+                git branch: env.BRANCH_NAME, url: 'https://github.com/gitaroktato/being-agile-with-modern-java'
+                sh 'chmod u+x ./gradlew'
             }
         }
         stage('test') {
             steps {
-                ...
+                sh "./gradlew clean assemble test"
             }
         }
     }

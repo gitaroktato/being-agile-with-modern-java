@@ -13,5 +13,5 @@ skaffold dev
 
 # Taurus
 ```
-bzt src/test/taurus/end-to-end.yml
+bzt src/e2e/taurus/end-to-end.yml
 ```
