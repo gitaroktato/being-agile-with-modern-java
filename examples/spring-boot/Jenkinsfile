@@ -10,16 +10,29 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
+                sh 'git config --global http.sslVerify false'
+                git branch: env.BRANCH_NAME, url: 'https://github.com/gitaroktato/being-agile-with-modern-java'
+
+            }
+        }
+        stage('initiate') {
+            steps {
                dir(BASEDIR) {
-                 sh 'cd $BASEDIR'
                  sh 'ls'
                  sh 'chmod u+x ./gradlew'
                }
             }
         }
         stage('test') {
+            agent {
+                docker {
+                    image 'openjdk:11-jdk-slim'
+                }
+            }
             steps {
-                sh "./gradlew clean assemble test"
+               dir(BASEDIR) {
+                 sh "./gradlew clean assemble test"
+               }
             }
         }
     }
