@@ -30,7 +30,58 @@ pipeline {
                }
             }
         }
+        stage('verify') {
+            agent {
+                docker {
+                    image 'openjdk:11-jdk-slim'
+                    args '--network=host -v $HOME/.gradle:/root/.gradle'
+                    reuseNode true
+                }
+            }
+            steps {
+               dir(BASEDIR) {
+                    sh "./gradlew check"
+               }
+            }
+        }
         stage('deploy to lab') {
+            failFast true
+            parallel {
+                stage('us-west-2') {
+                    input {
+                        message "Deploy to us-west-2?"
+                        ok "Deploy"
+                    }
+                    steps {
+                        echo "Deploying to us-west-2"
+                    }
+                }
+                stage('us-east-1') {
+                    input {
+                        message "Deploy to us-east-1?"
+                        ok "Deploy"
+                    }
+                    steps {
+                        echo "Deploying to us-east-1"
+                    }
+                }
+            }
+        }
+        stage('integration test') {
+            agent {
+                docker {
+                    image 'blazemeter/taurus'
+                    args '--network=host'
+                    reuseNode true
+                }
+            }
+            steps {
+               dir(BASEDIR) {
+                    sh "bzt --help"
+               }
+            }
+        }
+        stage('deploy to prod') {
             failFast true
             parallel {
                 stage('us-west-2') {

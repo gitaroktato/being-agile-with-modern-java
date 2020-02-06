@@ -75,5 +75,3 @@ task e2eTest(type: Exec) {
 	group = 'verification'
     commandLine 'bzt', 'src/e2e/taurus/end-to-end.yml'
 }
-
-check.dependsOn e2eTest
