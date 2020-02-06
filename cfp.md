@@ -18,3 +18,6 @@ Oresztész is working at EPAM Systems with approximately 13 years of professiona
     * Continuous testing
     * Living documentation
     * Pipeline as code
+
+## Elevator pitch
+There are a lot of misunderstandings around agile these days and it's easy to loose the connection between daily development activities and agile practices. In this speech I would like to clarify what agility means for the modern Java developer. Also go through some practical tools & technologies and discuss how they're providing agility.

@@ -37,6 +37,22 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	e2e {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
+	}
+}
+
+configurations {
+	e2eImplementation.extendsFrom implementation
+	e2eRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+	e2eImplementation 'junit:junit:4.12'
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -53,3 +69,11 @@ dependencies {
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
+
+task e2eTest(type: Exec) {
+	description = 'Runs end-to-end tests.'
+	group = 'verification'
+    commandLine 'bzt', 'src/e2e/taurus/end-to-end.yml'
+}
+
+check.dependsOn e2eTest

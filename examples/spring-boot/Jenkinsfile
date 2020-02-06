@@ -1,14 +1,56 @@
 pipeline {
-    ...
+    agent any
+    environment {
+        GRADLE_OPTS = '-Dorg.gradle.daemon=false'
+        BASEDIR = 'examples/spring-boot'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '1'))
+    }
     stages {
         stage('checkout') {
             steps {
-                ...
+                sh 'git config --global http.sslVerify false'
+                git branch: env.BRANCH_NAME, url: 'https://github.com/gitaroktato/being-agile-with-modern-java'
+
             }
         }
         stage('test') {
+            agent {
+                docker {
+                    image 'openjdk:11-jdk-slim'
+                    args '--network=host -v $HOME/.gradle:/root/.gradle'
+                    reuseNode true
+                }
+            }
             steps {
-                ...
+               dir(BASEDIR) {
+                    sh "chmod u+x ./gradlew"
+                    sh "./gradlew clean test"
+               }
+            }
+        }
+        stage('deploy to lab') {
+            failFast true
+            parallel {
+                stage('us-west-2') {
+                    input {
+                        message "Deploy to us-west-2?"
+                        ok "Deploy"
+                    }
+                    steps {
+                        echo "Deploying to us-west-2"
+                    }
+                }
+                stage('us-east-1') {
+                    input {
+                        message "Deploy to us-east-1?"
+                        ok "Deploy"
+                    }
+                    steps {
+                        echo "Deploying to us-east-1"
+                    }
+                }
             }
         }
     }

@@ -13,5 +13,11 @@ skaffold dev
 
 # Taurus
 ```
-bzt src/test/taurus/end-to-end.yml
+bzt src/e2e/taurus/end-to-end.yml
+```
+
+# Jenkins CI/CD
+Jenkins CI/CD is located in examples/jenkins-cicd
+```
+docker-compose up -d
 ```
