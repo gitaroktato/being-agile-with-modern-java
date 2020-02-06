@@ -29,6 +29,12 @@
 
 # Pipeline as code
 [ ] Jenkinsfile and branch builds
+[ ] Jenkins compose with dind
+
+## References
+https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/Controlling-your-build-environment
+https://jenkins.io/doc/book/pipeline/docker/
+https://stackoverflow.com/questions/46524774/docker-dind-unable-to-access-private-registry
 
 # Others
 [ ] Junit 5

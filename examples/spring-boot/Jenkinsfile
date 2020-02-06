@@ -15,23 +15,18 @@ pipeline {
 
             }
         }
-        stage('initiate') {
-            steps {
-               dir(BASEDIR) {
-                 sh 'ls'
-                 sh 'chmod u+x ./gradlew'
-               }
-            }
-        }
         stage('test') {
             agent {
                 docker {
-                    image 'openjdk:11-jdk-slim'
+                    image 'gradle:jdk11'
+                    args '--network=host -v $HOME/.gradle:/root/.gradle'
+                    reuseNode true
                 }
             }
             steps {
                dir(BASEDIR) {
-                 sh "./gradlew clean assemble test"
+                    sh "chmod u+x ./gradlew"
+                    sh "./gradlew clean test"
                }
             }
         }
