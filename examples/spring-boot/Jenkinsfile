@@ -19,11 +19,14 @@ pipeline {
             steps {
                dir(BASEDIR) {
                     sh "chmod u+x ./gradlew"
-                    def exists = fileExists '$HOME/docker-compose'
-                    if (exists) {
-                        echo 'Skipping docker-compose installation'
-                    } else {
-                        sh "curl -L --fail https://github.com/docker/compose/releases/download/1.25.3/run.sh -o $HOME/docker-compose"
+                    script {
+                        def exists = fileExists '$HOME/docker-compose'
+                        if (exists) {
+                            echo 'Skipping docker-compose installation'
+                        } else {
+                            sh "curl -L --fail https://github.com/docker/compose/releases/download/1.25.3/run.sh -o $HOME/docker-compose"
+                            sh "chmod u+x $HOME/docker-compose"
+                        }
                     }
                }
             }
@@ -98,7 +101,10 @@ pipeline {
         }
         stage('integration test') {
             steps {
-                echo "Running integration tests"
+                dir(BASEDIR) {
+                    echo "Running integration tests"
+                    sh 'docker run --network=host -v $(pwd):/build -w /build blazemeter/taurus /build/src/e2e/taurus/end-to-end.yml'
+                }
             }
         }
         stage('deploy to prod') {
