@@ -99,10 +99,10 @@ pipeline {
                 }
             }
         }
-        stage('integration test') {
+        stage('end-to-end test') {
             steps {
                 dir(BASEDIR) {
-                    echo "Running integration tests"
+                    echo "Running end-to-end tests"
                     sh "docker build -t bzt src/e2e/taurus/Dockerfile"
                     sh 'docker run --network=host -v $(pwd):/build -w /build bzt /build/src/e2e/taurus/end-to-end.yml'
                 }
