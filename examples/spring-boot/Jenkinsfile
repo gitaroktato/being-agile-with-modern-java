@@ -103,7 +103,7 @@ pipeline {
             steps {
                 dir(BASEDIR) {
                     echo "Running end-to-end tests"
-                    sh "docker build -t bzt src/e2e/taurus/Dockerfile"
+                    sh "docker build -t bzt src/e2e/taurus"
                     sh 'docker run --network=host -v $(pwd):/build -w /build bzt /build/src/e2e/taurus/end-to-end.yml'
                 }
             }
