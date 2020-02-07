@@ -23,7 +23,7 @@ public class AgileSpringbootApplicationTests {
 	public void testGetPerson() throws IOException, InterruptedException {
 
 		var getPersonRequest = HttpRequest.newBuilder()
-				.uri(URI.create("http://localhost:8080/person/1"))
+				.uri(URI.create("http://localhost:8081/person/1"))
 				.timeout(Duration.ofSeconds(10))
 				.header("Content-Type", "application/json")
 				.build();
@@ -39,7 +39,7 @@ public class AgileSpringbootApplicationTests {
 	public void testGetLegacyPerson() throws IOException, InterruptedException {
 
 		var getPersonRequest = HttpRequest.newBuilder()
-				.uri(URI.create("http://localhost:8080/v1/person/1"))
+				.uri(URI.create("http://localhost:8081/v1/person/1"))
 				.timeout(Duration.ofSeconds(10))
 				.header("Content-Type", "application/json")
 				.build();
