@@ -11,8 +11,8 @@ reporting:
   - module: console
   - module: passfail
     criteria:
-      - avg-rt of testGetPerson>50ms for 10s, stop as failed
-      - p99 of testGetPerson>120ms for 5s, stop as failed
+      - avg-rt of testGetPerson>200ms for 10s, stop as failed
+      - p99 of testGetPerson>500ms for 5s, stop as failed
       - fail of testGetLegacyPerson>50% for 10s, stop as failed
 
 modules:
