@@ -32,6 +32,16 @@ pipeline {
                     }
                     echo 'Configuring Taurus'
                     sh "docker build -t bzt src/e2e/taurus"
+                    echo 'Configuring wait-for-it'
+                    script {
+                        def exists = fileExists '$HOME/wait-for-it.sh'
+                        if (exists) {
+                            echo 'Skipping wait-for-it installation'
+                        } else {
+                            sh "curl -L --fail https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o $HOME/wait-for-it.sh"
+                            sh "chmod u+x $HOME/wait-for-it.sh"
+                        }
+                    }
                }
             }
         }
@@ -97,7 +107,9 @@ pipeline {
                     }
                     steps {
                         dir(BASEDIR) {
-                            sh "$HOME/docker-compose up -d --build"
+                            sh "$HOME/docker-compose up -d mysql"
+                            sh "$HOME/wait-for-it.sh docker:3306"
+                            sh "$HOME/docker-compose up -d --build agile-springboot"
                         }
                     }
                 }
@@ -106,6 +118,8 @@ pipeline {
         stage('end-to-end test') {
             steps {
                 dir(BASEDIR) {
+                    echo "Waiting for serivce to be up-and-running"
+                    sh "$HOME/wait-for-it.sh -t 30 docker:8081"
                     echo "Running end-to-end tests"
                     sh 'docker run --name bzt --rm --network=host -v $(pwd):/build -w /build bzt -o settings.artifacts-dir=/tmp /build/src/e2e/taurus/end-to-end.yml'
                 }
@@ -144,7 +158,7 @@ pipeline {
                     alwaysLinkToLastBuild: false,
                     keepAll: false,
                     reportDir: 'build/reports/spotbugs',
-                    reportFiles: 'build/reports/spotbugs/main.html',
+                    reportFiles: 'main.html',
                     reportName: 'SpotBugs report', reportTitles: 'SpotBugs report'
                 ])
             }
