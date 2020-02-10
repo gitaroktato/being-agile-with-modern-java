@@ -28,9 +28,9 @@
 [ ] JEP 330 and check README.md
 
 # Pipeline as code
-[ ] Jenkinsfile and branch builds
-[ ] Jenkins compose with dind
-
+[x] Jenkinsfile and branch builds
+[x] Jenkins compose with dind
+[ ] Jenkins cleanup
 ## References
 https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/Controlling-your-build-environment
 https://jenkins.io/doc/book/pipeline/docker/

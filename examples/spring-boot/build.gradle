@@ -70,6 +70,13 @@ dependencies {
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
 
+test {
+	reports {
+		junitXml.enabled = true
+		html.enabled = false
+	}
+}
+
 task e2eTest(type: Exec) {
 	description = 'Runs end-to-end tests.'
 	group = 'verification'
