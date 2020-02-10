@@ -18,7 +18,9 @@ pipeline {
         stage('prepare') {
             steps {
                dir(BASEDIR) {
+                    echo 'Configuring gradle'
                     sh "chmod u+x ./gradlew"
+                    echo 'Configuring docker-compose'
                     script {
                         def exists = fileExists '$HOME/docker-compose'
                         if (exists) {
@@ -28,6 +30,8 @@ pipeline {
                             sh "chmod u+x $HOME/docker-compose"
                         }
                     }
+                    echo 'Configuring Taurus'
+                    sh "docker build -t bzt src/e2e/taurus"
                }
             }
         }
@@ -93,7 +97,7 @@ pipeline {
                     }
                     steps {
                         dir(BASEDIR) {
-                            sh "$HOME/docker-compose up -d"
+                            sh "$HOME/docker-compose up -d --build"
                         }
                     }
                 }
@@ -103,8 +107,7 @@ pipeline {
             steps {
                 dir(BASEDIR) {
                     echo "Running end-to-end tests"
-                    sh "docker build -t bzt src/e2e/taurus"
-                    sh 'docker run --network=host -v $HOME/.bzt-rc:/root/.bzt-rc -v $(pwd):/build -w /build bzt /build/src/e2e/taurus/end-to-end.yml'
+                    sh 'docker run --name bzt --rm --network=host -v $(pwd):/build -w /build bzt -o settings.artifacts-dir=/tmp /build/src/e2e/taurus/end-to-end.yml'
                 }
             }
         }
@@ -129,6 +132,35 @@ pipeline {
                         echo "Deploying to us-east-1"
                     }
                 }
+            }
+        }
+    }
+    post {
+        always {
+            dir(BASEDIR) {
+                junit 'build/test-results/**/*.xml'
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'build/reports/spotbugs',
+                    reportFiles: 'build/reports/spotbugs/main.html',
+                    reportName: 'SpotBugs report', reportTitles: 'SpotBugs report'
+                ])
+            }
+        }
+        cleanup {
+            dir(BASEDIR) {
+                script {
+                    try {
+                        echo 'Removing bzt container'
+                        sh 'docker rm -f bzt'
+                    } catch (err) {
+                        echo "Removing container failed: ${err}"
+                    }
+                }
+                sh "$HOME/docker-compose down"
+                sh 'git clean -df'
             }
         }
     }

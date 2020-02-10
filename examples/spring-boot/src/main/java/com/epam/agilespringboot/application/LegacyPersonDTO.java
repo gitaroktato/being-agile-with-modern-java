@@ -8,4 +8,5 @@ import lombok.Setter;
 public class LegacyPersonDTO {
     @Getter @Setter
     private String fullName;
+    public static final LegacyPersonDTO NONE = new LegacyPersonDTO();
 }

@@ -23,7 +23,7 @@ public class PersonController {
         return person.map(result -> {
             var dto = mapper.personToLegacyPersonDTO(result);
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        }).orElse(new ResponseEntity<>(LegacyPersonDTO.NONE, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/person/{id}")
@@ -32,6 +32,6 @@ public class PersonController {
         return person.map(result -> {
             var dto = mapper.personToPersonDTO(result);
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        }).orElse(new ResponseEntity<>(PersonDTO.NONE, HttpStatus.NOT_FOUND));
     }
 }
