@@ -107,7 +107,7 @@ pipeline {
             steps {
                 dir(BASEDIR) {
                     echo "Running end-to-end tests"
-                    sh 'docker run --name bzt --rm --network=host -v $(pwd):/build -w /build bzt /build/src/e2e/taurus/end-to-end.yml'
+                    sh 'docker run --name bzt --rm --network=host -v $(pwd):/build -w /build bzt -o settings.artifacts-dir=/tmp /build/src/e2e/taurus/end-to-end.yml'
                 }
             }
         }
@@ -137,12 +137,29 @@ pipeline {
     }
     post {
         always {
-            junit 'build/test-results/**/*.xml'
+            dir(BASEDIR) {
+                junit 'build/test-results/**/*.xml'
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'build/reports/spotbugs',
+                    reportFiles: 'build/reports/spotbugs/main.html',
+                    reportName: 'SpotBugs report', reportTitles: 'SpotBugs report'
+                ])
+            }
         }
         cleanup {
             dir(BASEDIR) {
-                sh 'docker rm -f bzt'
-                sh 'docker-compose down'
+                script {
+                    try {
+                        echo 'Removing bzt container'
+                        sh 'docker rm -f bzt'
+                    } catch (err) {
+                        echo "Removing container failed: ${err}"
+                    }
+                }
+                sh "$HOME/docker-compose down"
                 sh 'git clean -df'
             }
         }

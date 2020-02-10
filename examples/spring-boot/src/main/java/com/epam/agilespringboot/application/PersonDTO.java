@@ -8,4 +8,5 @@ import lombok.Setter;
 public class PersonDTO {
     @Getter @Setter private String firstName;
     @Getter @Setter private String lastName;
+    public static final PersonDTO NONE = new PersonDTO();
 }
