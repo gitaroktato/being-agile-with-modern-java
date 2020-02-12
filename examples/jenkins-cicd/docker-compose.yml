@@ -5,7 +5,7 @@ services:
     privileged: true
     environment:
       DOCKER_TLS_CERTDIR: /certs
-    dns: 8.8.8.8
+#    dns: 8.8.8.8
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
@@ -16,7 +16,7 @@ services:
       DOCKER_CERT_PATH: /certs/client
       DOCKER_TLS_VERIFY: 1
       COMPOSE_OPTIONS: "--network=host -v/certs/client:/certs/client"
-    dns: 8.8.8.8
+#    dns: 8.8.8.8
     ports:
       - 8080:8080
       - 50000:50000
