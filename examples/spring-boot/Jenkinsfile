@@ -117,12 +117,19 @@ pipeline {
             }
         }
         stage('end-to-end test') {
+            agent {
+                docker {
+                    image 'bzt'
+                    args '--network=host'
+                    reuseNode true
+                }
+            }
             steps {
                 dir(BASEDIR) {
                     echo "Waiting for serivce to be up-and-running"
-                    sh "$HOME/wait-for-it.sh -t 30 docker:8081"
+                    sh "$HOME/wait-for-it.sh -t 30 localhost:8081"
                     echo "Running end-to-end tests"
-                    sh 'docker run --name bzt --rm --network=host -v $(pwd):/build -w /build bzt -o settings.artifacts-dir=/tmp /build/src/e2e/taurus/end-to-end.yml'
+                    sh 'bzt -o settings.artifacts-dir=/tmp /build/src/e2e/taurus/end-to-end.yml'
                 }
             }
         }
