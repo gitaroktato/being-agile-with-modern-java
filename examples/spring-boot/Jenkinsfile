@@ -17,8 +17,10 @@ pipeline {
             }
         }
         stage('prepare') {
-            echo 'hello world'
-            sh 'env'
+            steps {
+                echo 'hello world'
+                sh 'env'
+            }
         }
     }
 }
