@@ -56,7 +56,6 @@ pipeline {
             }
             steps {
                dir(BASEDIR) {
-                    sh "chmod u+x ./gradlew"
                     sh "./gradlew clean test"
                }
             }
@@ -109,7 +108,7 @@ pipeline {
                     steps {
                         dir(BASEDIR) {
                             sh "$HOME/docker-compose up -d mysql"
-                            sh "$HOME/wait-for-it.sh docker:3306"
+                            sh "$HOME/wait-for-it.sh -t 30 docker:3306"
                             sh "$HOME/docker-compose up -d --build agile-springboot"
                         }
                     }
@@ -120,16 +119,16 @@ pipeline {
             agent {
                 docker {
                     image 'bzt'
-                    args '--network=host'
+                    args '-u 0 --network=host -v $HOME/wait-for-it.sh:/wait-for-it.sh:ro'
                     reuseNode true
                 }
             }
             steps {
                 dir(BASEDIR) {
                     echo "Waiting for serivce to be up-and-running"
-                    sh "$HOME/wait-for-it.sh -t 30 localhost:8081"
+                    sh "/wait-for-it.sh -t 30 localhost:8081"
                     echo "Running end-to-end tests"
-                    sh 'bzt -o settings.artifacts-dir=/tmp /build/src/e2e/taurus/end-to-end.yml'
+                    sh 'bzt -o settings.artifacts-dir=/tmp src/e2e/taurus/end-to-end.yml'
                 }
             }
         }
