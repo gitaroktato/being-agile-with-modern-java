@@ -13,7 +13,7 @@ spring:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mysql://192.168.99.106/persons
+    url: jdbc:mysql://192.168.99.100/persons
 ---
 spring:
   profiles: docker
