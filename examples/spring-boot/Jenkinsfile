@@ -16,6 +16,11 @@ pipeline {
 
             }
         }
+        stage('notifcations') {
+            steps {
+                echo 'New notification is here!'
+            }
+        }
         stage('prepare') {
             steps {
                dir(BASEDIR) {
