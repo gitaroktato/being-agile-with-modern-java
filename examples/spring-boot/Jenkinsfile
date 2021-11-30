@@ -106,29 +106,8 @@ pipeline {
                         ok "Deploy"
                     }
                     steps {
-                        dir(BASEDIR) {
-                            sh "$HOME/docker-compose up -d mysql"
-                            sh "$HOME/wait-for-it.sh -t 30 docker:3306"
-                            sh "$HOME/docker-compose up -d --build agile-springboot"
-                        }
+                        echo "Deploying to us-east-1"
                     }
-                }
-            }
-        }
-        stage('end-to-end test') {
-            agent {
-                docker {
-                    image 'bzt'
-                    args '-u 0 --network=host -v $HOME/wait-for-it.sh:/wait-for-it.sh:ro'
-                    reuseNode true
-                }
-            }
-            steps {
-                dir(BASEDIR) {
-                    echo "Waiting for serivce to be up-and-running"
-                    sh "/wait-for-it.sh -t 30 localhost:8081"
-                    echo "Running end-to-end tests"
-                    sh 'bzt -o settings.artifacts-dir=/tmp src/e2e/taurus/end-to-end.yml'
                 }
             }
         }
