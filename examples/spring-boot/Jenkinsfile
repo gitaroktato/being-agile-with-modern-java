@@ -43,6 +43,8 @@ pipeline {
                             sh "chmod u+x $HOME/wait-for-it.sh"
                         }
                     }
+                    sh "docker network create -d bridge lab"
+                    sh "docker network create -d bridge prod"
                }
             }
         }
