@@ -70,7 +70,7 @@ pipeline {
                         ok "Deploy"
                     }
                     steps {
-                        sh "docker run --rm -d -p8082:80 traefik/whoami"
+                        sh "docker run --rm -d -p8082:80 --network lab traefik/whoami"
                     }
                 }
             }
@@ -79,42 +79,48 @@ pipeline {
             failFast true
             parallel {
                 stage('us-west-2') {
-                    input {
-                        message "Deploy to us-west-2?"
-                        ok "Deploy"
-                    }
                     steps {
                         sh "curl http://docker:8082"
                     }
                 }
             }
         }
-    }
-    post {
-        always {
-            dir(BASEDIR) {
-                junit 'build/test-results/**/*.xml'
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: false,
-                    reportDir: 'build/reports/spotbugs',
-                    reportFiles: 'main.html',
-                    reportName: 'SpotBugs report', reportTitles: 'SpotBugs report'
-                ])
+        stage('deploy to prod') {
+            failFast true
+            parallel {
+                stage('us-west-2') {
+                    input {
+                        message "Deploy to us-west-2?"
+                        ok "Deploy"
+                    }
+                    steps {
+                        sh "docker run --rm -d -p8083:80 --network prod traefik/whoami"
+                    }
+                }
             }
         }
+        stage('production-test') {
+            failFast true
+            parallel {
+                stage('us-west-2') {
+                    steps {
+                        sh "curl http://docker:8083"
+                    }
+                }
+            }
+        }
+    }
+    post {
         cleanup {
             dir(BASEDIR) {
                 script {
                     try {
-                        echo 'Removing bzt container'
-                        sh 'docker rm -f bzt'
+                        echo 'Removing all containers'
+                        sh 'docker ps -aq | xargs docker rm -f'
                     } catch (err) {
                         echo "Removing container failed: ${err}"
                     }
                 }
-                sh "$HOME/docker-compose down"
                 sh 'git clean -df'
             }
         }
