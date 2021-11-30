@@ -70,12 +70,12 @@ pipeline {
                         ok "Deploy"
                     }
                     steps {
-                        sh "docker run --rm -d -P traefik/whoami"
+                        sh "docker run --rm -d -p8082:80 traefik/whoami"
                     }
                 }
             }
         }
-        stage('deploy to prod') {
+        stage('integration-test') {
             failFast true
             parallel {
                 stage('us-west-2') {
@@ -84,16 +84,7 @@ pipeline {
                         ok "Deploy"
                     }
                     steps {
-                        echo "Deploying to us-west-2"
-                    }
-                }
-                stage('us-east-1') {
-                    input {
-                        message "Deploy to us-east-1?"
-                        ok "Deploy"
-                    }
-                    steps {
-                        echo "Deploying to us-east-1"
+                        sh "curl http://docker:8082"
                     }
                 }
             }
