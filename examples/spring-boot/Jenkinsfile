@@ -97,16 +97,7 @@ pipeline {
                         ok "Deploy"
                     }
                     steps {
-                        echo "Deploying to us-west-2"
-                    }
-                }
-                stage('us-east-1') {
-                    input {
-                        message "Deploy to us-east-1?"
-                        ok "Deploy"
-                    }
-                    steps {
-                        echo "Deploying to us-east-1"
+                        sh "docker run --rm -d traefik/whoami"
                     }
                 }
             }
